@@ -44,4 +44,9 @@ External libraries: PIL, numpy, emnist, matplotlib, sklearn
 
 Math app: press k to see the space finder algorithm work to break your writing into individual characters and convert them to AI readable format
 
+
+
+5.Note about Sources
+
+My sources are in the "Term Project Sources Current.pdf" and inside my code, please refer to "Term Project Sources Current.pdf" for more information about how I sctructure my sources
  
