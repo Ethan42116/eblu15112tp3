@@ -68,9 +68,8 @@ def onMouseDrag(app,mouseX,mouseY):
 #type = 0 -->rotation
 #type = 1 -->blurring
 #type = 2 -->randomlyAlterV2
-#type = 3 -->randomlyAlter
-#type = 4 -->width mutiplifer
-#type = 5 -->height mutiplier
+#type = 3 -->width mutiplifer
+#type = 4 -->height mutiplier
 def convertX(app,circleX,typeChange):
     ratio= circleX/300
     #use int(x*100)/100 to truncate decimal places

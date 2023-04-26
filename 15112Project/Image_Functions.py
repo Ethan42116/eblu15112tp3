@@ -69,8 +69,6 @@ def rotateImage(img,angle):
     #add expand to prevent losing image information
     #add somthing that can crop the image back to original size??
 
-def imageScale(img,num):
-    return ImageOps.scale(image=img,factor=num)
 
 def reSize(img,newSize):
     img=img.resize(newSize,Image.LANCZOS)
@@ -80,15 +78,12 @@ def reSize(img,newSize):
 #also inspiration from https://stackoverflow.com/questions/46385999/transform-an-image-to-a-bitmap
 #takes in a image and randomly removes some parts of the image to distort it
 def randomlyAlterV2(img):
-
-
-
     img=copy.deepcopy(img)
     imgArray=np.array(img)
     rows,cols=len(imgArray),len(imgArray[0])
     
-
-    target=random.randrange(1,2)
+    #gets how many removes you want 
+    target=1
     count=0
     while count<target:
         #gets random pixel
@@ -101,24 +96,17 @@ def randomlyAlterV2(img):
             count+=1
             
             edge=set([(randRow,randCol)])
-            #imgArray=removePixel(imgArray,0,randRow,randCol)
-            #darkPixelsSet=set()
-            #countDarkPixels(copy.deepcopy(imgArray),randRow,randCol,darkPixelsSet)
-            #numDarkPixels=len(darkPixelsSet)
-            #print (numDarkPixels,"test")
             darkPixels=set()
+            #counts the number of dark pixels in the image
             countDarkPixels(imgArray,randRow,randCol,darkPixels)
-            print(len(darkPixels),"pixels")
-            print(len(imgArray),len(imgArray[0]))
 
-            removePixelV2(imgArray,edge,1,len(darkPixels)//9)
+            removePixelV2(imgArray,edge,1,len(darkPixels)//9)#aims to remove 1/9 of the dark pixels
 
             
         
     return Image.fromarray(imgArray)
 
 #learned about this in 112 floodfilling notes(forgot what year it is) and Dr. Taylor, (did directly not copy code, but used floodfilling, which I learned in this class)
-#counts the dark pixels in a single character, have some problems that need fixing
 def countDarkPixels(imgArray,darkPixelRow,darkPixelCol,searched):
     rows,cols=len(imgArray),len(imgArray[0])
     if 0<darkPixelRow<rows and 0<darkPixelCol<cols and sum(imgArray[darkPixelRow][darkPixelCol])<255*3*.7 and (darkPixelRow,darkPixelCol) not in searched:
@@ -131,7 +119,7 @@ def countDarkPixels(imgArray,darkPixelRow,darkPixelCol,searched):
 
 
 #source/inspirations for removePixelV2
-#used description of algorithim and specifically anmation at 5:23 for learn about specific floodfill algorithm of video below
+#used description of algorithim and specifically animation(video below) at 5:23 for learn about specific floodfill algorithm of video below
 #did not really use the code they provided in video, made my own code
 #https://www.youtube.com/watch?v=VuiXOc81UDM&ab_channel=Insidecode
 #used old 15112 recursion notes to get inspitation on how to implement something similar to BFS search (I think it is mazer solver, but not entirely sure)
@@ -140,6 +128,7 @@ def countDarkPixels(imgArray,darkPixelRow,darkPixelCol,searched):
 #https://www.youtube.com/watch?v=lyVRSBFVQQM&ab_channel=KindsonTheGenius to learn about BFS in general
 
 #In general, I am pretty sure that I used the sources to learn about bfs and how it works, but I implement the code myself
+
 #removes a count number of pixels around edge
 #removes target number pixels from the image using a special type of floodfilling
 def removePixelV2(imgArray,edge,count,target):
@@ -250,7 +239,7 @@ def convertToAIBasicLab(img):
     return np.array(img2,dtype=int)
 
 #https://stackoverflow.com/questions/18522295/python-pil-change-greyscale-tif-to-rgb
-#ensure that image always has RGB (255,255,255)
+#ensure that image always be RGB (255,255,255)
 #will lose color of image
 def openImage(name):
     img = Image.open(name)

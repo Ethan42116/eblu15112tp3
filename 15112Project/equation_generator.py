@@ -1,10 +1,10 @@
 import random
-#looked up eval at
+#sources: looked up eval at
     #source https://www.w3schools.com/python/ref_func_eval.asp#:~:text=The%20eval()%20function%20evaluates,statement%2C%20it%20will%20be%20executed.
     #source https://realpython.com/python-eval-function/ 
 
 
-#talked to Petros Emmanouilidis and Gongwei Wang for some ways to implement function, but most of implementation is done by myself
+#talked/brainstormed with Petros Emmanouilidis and Gongwei Wang for some ways to implement function, but most of implementation is done by myself
 #generates a basic arithmetic equation
 def getSimpleArithmetic():
     nums=[0,1,2,3,4,5,6,7,8,9]
@@ -17,6 +17,8 @@ def getSimpleArithmetic():
     while (operation=="%" or operation=="/") and num2==0:
         print("yes")
         num2=nums[random.randint(1,len(nums)-1)]
+
+
     #ensure no fraction
     if operation=="/" and num1%num2!=0:
         num1=nums[random.randint(0,len(nums)-1)]*num2
@@ -43,9 +45,18 @@ def getHarderArithmetic():
     while (operation1 in "%/" and num2==0): 
         print("yes")
         num2=nums[random.randint(1,len(nums)-1)]
+    
+    
     while (operation2 in "%/" and num3==0):
         print("yes")
         num3=nums[random.randint(1,len(nums)-1)]
+    
+    #ensure that you don't mod by negative numbers
+    while (operation1=="%") and num2<0:
+        num2=nums[random.randint(10,len(nums)-1)]
+
+    while (operation2=="%") and num3<0:
+        num3=nums[random.randint(10,len(nums)-1)]
     #if it is exponenet, make sure the power is not too big
     if operation1=="**":
         num2=random.randint(0,3)
@@ -86,6 +97,14 @@ def getHardestArithmetic():
         print("yes")
         num4=nums[random.randint(1,len(nums)-1)]
     
+     #ensure that you don't mod by negative numbers
+    while (operation1=="%") and num2<0:
+        num2=nums[random.randint(10,len(nums)-1)]
+    while (operation2=="%") and num3<0:
+        num3=nums[random.randint(10,len(nums)-1)]
+    while (operation3=="%") and num4<0:
+        num4=nums[random.randint(10,len(nums)-1)]
+    
     #if it is exponenet, make sure the power is not too big
     if operation1=="**":
         num2=random.randint(0,3)
@@ -103,6 +122,8 @@ def getHardestArithmetic():
         return getHardestArithmetic()
     return question,answer
 
+
+#disregard it is my attempt at diversifying questions
 def getSimpleFraction():
     denominators=[1,2,3,4,5,6,7,8,9]
     neumerators=[-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9]

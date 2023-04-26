@@ -1,7 +1,8 @@
-#source:https://colab.research.google.com/drive/1NyYH1EPpaJlMBLK0fcKYz4icaD1SNSLK#scrollTo=DWcb4sxAP2lT
+#IMPORANT!!!!! READ BELOW
+#source code:https://colab.research.google.com/drive/1NyYH1EPpaJlMBLK0fcKYz4icaD1SNSLK#scrollTo=DWcb4sxAP2lT !!!!!!!!!
 #got base code from link above, but modified it to my use and also turned it into class so that I don't need to retrain AI every time I have it read something
 #https://scikit-learn.org/stable/install.html installying sckitlearn
-#https://www.youtube.com/watch?v=GvYYFloV0aA&list=PL8dPuuaLjXtO65LeD2p4_Sb5XQ51par_b&ab_channel=CrashCourse important source that gave me basics of character recognition
+#https://www.youtube.com/watch?v=GvYYFloV0aA&list=PL8dPuuaLjXtO65LeD2p4_Sb5XQ51par_b&ab_channel=CrashCourse important source that gave me basics of character recognition (the whole video sereies)
 from PIL import Image, ImageFilter,ImageDraw,ImageEnhance,ImageOps
 import PIL
 import numpy as np
@@ -14,14 +15,14 @@ from sklearn.neural_network import MLPClassifier
 
 class AI():
     def __init__(self,isEmnist,externalTrainingImages=None,externalTrainingLabels=None):
-        #if you are using EMNIST data, then train the AI with EMNIST immediately when object is inializaed
         if isEmnist:
             X, y = extract_training_samples('digits')
             X=X/255.
 
+            #converts each pixel value to be between 0 and 1
             externalTrainingImages=externalTrainingImages/255.
  
-
+            #gets the training data
             trainingImages=X[0:90000]
             trainingLabels=y[0:90000]
             #sources about concatenating arrays
@@ -38,7 +39,7 @@ class AI():
                             solver='sgd', verbose=10, tol=1e-4, random_state=1,
                             learning_rate_init=.1)
             (self.mlp1).fit(trainingImages, trainingLabels)
-    #feed images for AI to read, might be able to remove labels in future but not entirely sure
+    #feed images for AI to read, might be able to remove testlabels in future but not entirely sure
     def readImage(self,testImages,testLabels):
         testImages=testImages/255.
         testImages = testImages.reshape((testLabels.shape)[0],784)

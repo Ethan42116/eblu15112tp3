@@ -1,4 +1,5 @@
-
+#note, this file is not very important, it is mainly used for me to play around with AI and test self training my AI
+#used self training for negative numbers
 import PIL
 import numpy as np
 from numpy import array
@@ -36,7 +37,7 @@ def redrawAll(app):
     drawLabel("press s to enter testing set",250,120,size=30,fill="darkBlue")
     drawLabel("press k to enter training sets",250,160,size=30,fill="darkBlue")
     
-    #draws the precition box
+    #draws the prediction box
     drawRect(app.width/2+100,100,300,200,fill=None,border="black")
     if app.havePrediction!=False:
         drawLabel(str(app.predictionValue),app.width/2+250,200,size=30,fill="red")

@@ -25,13 +25,13 @@ def onAppStart(app):
     app.height=1500
 
     app.question=Question() #app.textTop is defined in questions because it depends if the questions is a fraction or not
-    #dimentions of textBox
+    
     #the left of the textbox is determined by how long the problem is
-    app.textLeft=200+(len(app.question.problem)+3)*int(app.question.fontSize/2)
-    app.textDimention=200 #mysterious bug that causes crashes when size is too low (might be recursion depth lmit)
-    app.previousPosition=None
+    #app.textLeft=200+(len(app.question.problem)+3)*int(app.question.fontSize/2)
+    #dimentions of textBox
+    app.textDimention=200 
 
-    #gets the blank prepared
+    #gets the blank textbox/whiteboard prepared
     #copied from PIL Image Demo (makeNewImages.py) presented during lecture
     app.image = Image.new('RGB', (app.textDimention*2, app.textDimention), (255,255,255))
     app.draw = ImageDraw.Draw(app.image)
@@ -39,11 +39,11 @@ def onAppStart(app):
     app.draw2 = ImageDraw.Draw(app.image2)
     #trains the AI at the start so you don't need to retrain it every time you check answer
     app.ai=AI(True,app.negImages,app.negLabels)
-    #app.ai=AI(True)
-    #gets the predicted AI Value
+   
+    #gets the predicted AI Value, currently blank because you did not feed it anything
     app.predictionValue=np.array([])
     app.predictionValue2=np.array([])
-    #sets buttons in mainpage up
+    #sets buttons and features in mainpage 
     app.timer=Timer()
     app.eraser=Eraser()
     app.refresh=Refreshbutton()
@@ -52,7 +52,7 @@ def onAppStart(app):
     app.reportIssueButton=ReportIssueButton()
     app.scoreBoard=ScoreBoard()
     app.confetti=Confetti(app)
-    #app.sound=loadSound("correct.mp3")
+    #app.sound=loadSound("correct.mp3"), does not work will want to fix it in the future
 
     #sets features in non mainpage up
     app.issuesPage=IssuesPage(app)
@@ -73,6 +73,7 @@ def onAppStart(app):
 def frontpage0_redrawAll(app):
     #draws background
     drawRect(0,0,app.width,app.height,fill=rgb(239,164,139))
+    #draws the instructions text and buttons
     app.nextPageButton.drawButton()
     app.instructions.drawPage()
     #draws the flashing buttons
@@ -85,6 +86,7 @@ def frontpage0_redrawAll(app):
 def frontpage1_redrawAll(app):
     #draws background
     drawRect(0,0,app.width,app.height,fill=rgb(239,164,139))
+    #draws the instructions text and buttons
     app.nextPageButton.drawButton()
     app.prevPageButton.drawButton()
     app.instructions.drawPage()
@@ -130,10 +132,8 @@ def mainpage_redrawAll(app):
 def mainpage_onMouseDrag(app,mouseX,mouseY):
     #checks to see if mouse is in writing box
     if app.textLeft<=mouseX<app.textLeft+app.textDimention*3 and app.textTop<=mouseY<app.textTop+app.textDimention:
-        print(app.eraser.isClicked)
         #draws if eraser is off
         if not (app.eraser).isClicked:
-            print(1)
             app.draw.ellipse([(mouseX-10-app.textLeft,mouseY-10-app.textTop),(mouseX+10-app.textLeft,mouseY+10-app.textTop)], width=10, fill=(0, 0, 0))
         #erases if eraser is on
         elif app.eraser.isClicked:
@@ -143,14 +143,12 @@ def mainpage_onMouseDrag(app,mouseX,mouseY):
             spaceFinderFloodFill(imgArray,row,col,set())
             app.image=Image.fromarray(imgArray.astype(np.uint8))
             app.draw = ImageDraw.Draw(app.image)
+        
     #if the question is a fraction, draw the fraction parts
-
     if app.question.isFraction:
         if app.textLeft<=mouseX<app.textLeft+app.textDimention*3 and app.textTop+app.textDimention+10<=mouseY<app.textTop+2*app.textDimention+10:
-            print("fraction drawn")
         #draws if eraser is off
             if not (app.eraser).isClicked:
-                print("no eraser")
                 app.draw2.ellipse([(mouseX-10-app.textLeft,mouseY-10-(app.textTop+app.textDimention+10)),(mouseX+10-app.textLeft,mouseY+10-(app.textTop+app.textDimention+10))], width=10, fill=(0, 0, 0))
             #erases if eraser is on
             elif app.eraser.isClicked:
@@ -183,14 +181,16 @@ def issuespage_onMousePress(app,mouseX,mouseY):
     app.backButton.checkClick(app,mouseX,mouseY)
 
 
-#updates the timer
+
 def mainpage_onStep(app):
     app.mainpage_time+=1
     if app.mainpage_time%10==0:
+        #updates timer every second
         app.timer.updateTime()
+    #updates confetti every frame
     app.confetti.updateConfetti()
 
-#allows the buttons in the first instructions page to flash
+#allows the buttons in the first instructions page to flash every second
 def frontpage0_onStep(app):
     app.frontpage_time+=1
     if app.frontpage_time%10==0:
@@ -202,7 +202,7 @@ def frontpage0_onStep(app):
     
 
 
-#mainly for testing, will convert them to real buttons
+#mainly for testing, 
 def mainpage_onKeyPress(app,key):
     #converts writing to AI, just there for testing purposes
     if key=="k":

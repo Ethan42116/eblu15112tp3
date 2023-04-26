@@ -1,7 +1,8 @@
-#source:https://colab.research.google.com/drive/1NyYH1EPpaJlMBLK0fcKYz4icaD1SNSLK#scrollTo=DWcb4sxAP2lT
+#IMPORANT!!!!! READ BELOW
+#source code:https://colab.research.google.com/drive/1NyYH1EPpaJlMBLK0fcKYz4icaD1SNSLK#scrollTo=DWcb4sxAP2lT !!!!!!!!!
 #got base code from link above, but modified it to my use
 #https://scikit-learn.org/stable/install.html installying sckitlearn
-#https://www.youtube.com/watch?v=GvYYFloV0aA&list=PL8dPuuaLjXtO65LeD2p4_Sb5XQ51par_b&ab_channel=CrashCourse important source that gave me basics of character recognition
+#https://www.youtube.com/watch?v=GvYYFloV0aA&list=PL8dPuuaLjXtO65LeD2p4_Sb5XQ51par_b&ab_channel=CrashCourse important source that gave me basics of character recognition (the whole video sereies)
 from PIL import Image, ImageFilter,ImageDraw,ImageEnhance,ImageOps
 import PIL
 import numpy as np
